@@ -1,0 +1,101 @@
+[gd_scene load_steps=10 format=3 uid="uid://3no7gmn078lj"]
+
+[ext_resource type="Script" path="res://Zombie.cs" id="1_1e4ar"]
+[ext_resource type="PackedScene" uid="uid://dfc250wu8fyou" path="res://DeathPoof.tscn" id="2_7ku7s"]
+[ext_resource type="Texture2D" uid="uid://o822g5vr3dpk" path="res://Zombie-Sheet.png" id="3_sq5wv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uc3io"]
+size = Vector2(6, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4o83o"]
+size = Vector2(16, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_adre2"]
+radius = 50.0
+
+[sub_resource type="Animation" id="Animation_ufmqj"]
+resource_name = "Move"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16), Rect2(48, 0, 16, 16), Rect2(32, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_y7jyc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5sovp"]
+_data = {
+"Move": SubResource("Animation_ufmqj"),
+"RESET": SubResource("Animation_y7jyc")
+}
+
+[node name="Zombie" type="Node2D"]
+
+[node name="GroundCollision" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_1e4ar")
+DeathPoof = ExtResource("2_7ku7s")
+
+[node name="Sprite2D" type="Sprite2D" parent="GroundCollision"]
+texture_filter = 1
+texture = ExtResource("3_sq5wv")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCollision"]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_uc3io")
+debug_color = Color(0.701961, 0, 0.129412, 0.419608)
+
+[node name="GameCollision" type="Area2D" parent="GroundCollision"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCollision/GameCollision"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_4o83o")
+
+[node name="RayCast2D" type="RayCast2D" parent="GroundCollision"]
+modulate = Color(1, 0, 0.313726, 1)
+collision_mask = 4
+collide_with_areas = true
+
+[node name="AreaDetection" type="Area2D" parent="GroundCollision"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCollision/AreaDetection"]
+shape = SubResource("CircleShape2D_adre2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GroundCollision"]
+libraries = {
+"": SubResource("AnimationLibrary_5sovp")
+}
+
+[connection signal="area_entered" from="GroundCollision/GameCollision" to="GroundCollision" method="_on_game_collision_area_entered"]
+[connection signal="body_entered" from="GroundCollision/GameCollision" to="GroundCollision" method="_on_game_collision_body_entered"]
+[connection signal="area_entered" from="GroundCollision/AreaDetection" to="GroundCollision" method="_on_area_detection_area_entered"]
+[connection signal="area_exited" from="GroundCollision/AreaDetection" to="GroundCollision" method="_on_area_detection_area_exited"]

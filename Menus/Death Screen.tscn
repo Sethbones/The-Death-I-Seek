@@ -1,0 +1,106 @@
+[gd_scene load_steps=8 format=3 uid="uid://ct54vs2m178td"]
+
+[ext_resource type="Texture2D" uid="uid://bhmdlhmk02l0b" path="res://BasicMenuBackground.png" id="1_ha34v"]
+[ext_resource type="Script" path="res://Menus/ExitToMenu.cs" id="1_i30qx"]
+[ext_resource type="Script" path="res://Menus/Respawn.cs" id="2_6syvx"]
+[ext_resource type="Texture2D" uid="uid://bj743leceae4x" path="res://Menus/Exit Button.png" id="2_m3qkh"]
+[ext_resource type="Script" path="res://Menus/RespawnAtCampfire.cs" id="3_h5kqh"]
+[ext_resource type="AudioStream" uid="uid://k44n70g1oxef" path="res://Sounds/ihavefallenandichoosenottogetup.wav" id="4_62do0"]
+[ext_resource type="AudioStream" uid="uid://lrv0bi6d4syp" path="res://Sounds/menublip.wav" id="5_yew78"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(120, 68)
+texture = ExtResource("1_ha34v")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+texture_filter = 1
+offset_left = 25.0
+offset_top = 5.0
+offset_right = 209.0
+offset_bottom = 40.0
+texture = ExtResource("2_m3qkh")
+patch_margin_left = 7
+patch_margin_top = 8
+patch_margin_right = 7
+patch_margin_bottom = 6
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="."]
+texture_filter = 1
+offset_left = 2.0
+offset_top = 108.0
+offset_right = 123.0
+offset_bottom = 135.0
+texture = ExtResource("2_m3qkh")
+patch_margin_left = 7
+patch_margin_top = 8
+patch_margin_right = 7
+patch_margin_bottom = 6
+
+[node name="NinePatchRect3" type="NinePatchRect" parent="."]
+texture_filter = 1
+offset_left = 129.0
+offset_top = 108.0
+offset_right = 221.0
+offset_bottom = 135.0
+texture = ExtResource("2_m3qkh")
+patch_margin_left = 7
+patch_margin_top = 8
+patch_margin_right = 7
+patch_margin_bottom = 6
+
+[node name="ExitToMenu" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 9.0
+offset_top = 103.0
+offset_right = 117.0
+offset_bottom = 134.0
+text = "Exit To Menu
+"
+flat = true
+script = ExtResource("1_i30qx")
+
+[node name="Respawn" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 121.0
+offset_top = 103.0
+offset_right = 229.0
+offset_bottom = 134.0
+text = "Respawn"
+flat = true
+script = ExtResource("2_6syvx")
+
+[node name="Respawn at Campfire" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 30.0
+offset_top = 4.0
+offset_right = 203.0
+offset_bottom = 35.0
+text = "Respawn at Campfire"
+flat = true
+script = ExtResource("3_h5kqh")
+
+[node name="Game Over Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_62do0")
+autoplay = true
+
+[node name="MenuBlip" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_yew78")
+
+[connection signal="mouse_entered" from="ExitToMenu" to="ExitToMenu" method="_on_mouse_entered"]
+[connection signal="pressed" from="ExitToMenu" to="ExitToMenu" method="_on_pressed"]
+[connection signal="mouse_entered" from="Respawn" to="Respawn" method="_on_mouse_entered"]
+[connection signal="pressed" from="Respawn" to="Respawn" method="_on_pressed"]
+[connection signal="mouse_entered" from="Respawn at Campfire" to="Respawn at Campfire" method="_on_mouse_entered"]
+[connection signal="pressed" from="Respawn at Campfire" to="Respawn at Campfire" method="_on_pressed"]

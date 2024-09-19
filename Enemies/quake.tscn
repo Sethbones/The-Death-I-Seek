@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccdl4nbgvxtrp"]
+
+[ext_resource type="Texture2D" uid="uid://slwahrbqjaoj" path="res://Quake-Sheet.png" id="1_3xtv6"]
+[ext_resource type="Script" path="res://Enemies/quake.cs" id="1_a1olc"]
+[ext_resource type="AudioStream" uid="uid://otyf3kd8km8h" path="res://Sounds/QuakeSpawn.wav" id="3_ovdpo"]
+[ext_resource type="AudioStream" uid="uid://t214c3xlahot" path="res://Sounds/Quake.wav" id="4_7hnl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ow8fa"]
+radius = 15.0
+
+[sub_resource type="Animation" id="Animation_yjgml"]
+resource_name = "Quack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 160, 160), Rect2(160, 0, 160, 160), Rect2(320, 0, 160, 160), Rect2(480, 0, 160, 160)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [15.0, 25.0, 35.0, 50.0]
+}
+
+[sub_resource type="Animation" id="Animation_kdxkl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 160, 160)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [15.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m1q1o"]
+_data = {
+"Quack": SubResource("Animation_yjgml"),
+"RESET": SubResource("Animation_kdxkl")
+}
+
+[node name="Quake" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_a1olc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ow8fa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_3xtv6")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 160)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_m1q1o")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ovdpo")
+autoplay = true
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7hnl0")
+autoplay = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

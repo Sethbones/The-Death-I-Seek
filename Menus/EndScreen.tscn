@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://d3n0w8dph7i4l"]
+
+[ext_resource type="Script" path="res://Menus/ExitToMenu.cs" id="1_u8fdo"]
+[ext_resource type="Texture2D" uid="uid://bhmdlhmk02l0b" path="res://BasicMenuBackground.png" id="1_uppn8"]
+[ext_resource type="PackedScene" uid="uid://ds2hgurombbe5" path="res://Menus/TItle.tscn" id="2_2ki23"]
+[ext_resource type="Texture2D" uid="uid://bj743leceae4x" path="res://Menus/Exit Button.png" id="2_pnqgx"]
+[ext_resource type="AudioStream" uid="uid://lrv0bi6d4syp" path="res://Sounds/menublip.wav" id="3_d3udu"]
+[ext_resource type="AudioStream" uid="uid://dap8qbsx0iiny" path="res://Music/retroindiejosh_celebrate.ogg" id="4_fuifv"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(120, 68)
+texture = ExtResource("1_uppn8")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 56.0
+offset_top = 107.0
+offset_right = 185.0
+offset_bottom = 134.0
+texture = ExtResource("2_pnqgx")
+patch_margin_left = 7
+patch_margin_top = 8
+patch_margin_right = 7
+patch_margin_bottom = 6
+
+[node name="Button" type="Button" parent="." node_paths=PackedStringArray("MenuBlip")]
+texture_filter = 1
+layout_mode = 0
+offset_left = 67.0
+offset_top = 103.0
+offset_right = 175.0
+offset_bottom = 134.0
+text = "Exit To Menu"
+flat = true
+script = ExtResource("1_u8fdo")
+MenuScene = ExtResource("2_2ki23")
+MenuBlip = NodePath("AudioStreamPlayer2D")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Button"]
+stream = ExtResource("3_d3udu")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_fuifv")
+autoplay = true
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 242.0
+offset_bottom = 102.0
+text = "Thank You For Playing:
+I know there's not much to this
+but it was fun to make."
+
+[connection signal="mouse_entered" from="Button" to="Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

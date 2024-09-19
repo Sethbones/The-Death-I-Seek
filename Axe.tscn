@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcbwgbiivu4vg"]
+
+[ext_resource type="Script" path="res://Sword.cs" id="1_5gjvt"]
+[ext_resource type="Texture2D" uid="uid://dx5m6faetofig" path="res://Axe.png" id="2_ot0nf"]
+[ext_resource type="AudioStream" uid="uid://eso6kxddxnec" path="res://Sounds/Swing.wav" id="3_mjtqj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vx2se"]
+size = Vector2(17, 19.5)
+
+[sub_resource type="Animation" id="Animation_wxfg8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_wu1si"]
+resource_name = "Static"
+
+[sub_resource type="Animation" id="Animation_0iw2f"]
+resource_name = "Swing"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(0.217638, 0.34151, 1),
+"update": 0,
+"values": [0.0, -0.364498, 2.44346]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0n3d8"]
+_data = {
+"RESET": SubResource("Animation_wxfg8"),
+"Static": SubResource("Animation_wu1si"),
+"Swing": SubResource("Animation_0iw2f")
+}
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_5gjvt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -8)
+texture = ExtResource("2_ot0nf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -8.25)
+shape = SubResource("RectangleShape2D_vx2se")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0n3d8")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_mjtqj")
+autoplay = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

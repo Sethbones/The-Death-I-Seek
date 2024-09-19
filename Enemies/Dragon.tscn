@@ -1,0 +1,144 @@
+[gd_scene load_steps=14 format=3 uid="uid://tv6t5pv2pgql"]
+
+[ext_resource type="Script" path="res://Enemies/Dragon.cs" id="1_f0a3e"]
+[ext_resource type="PackedScene" uid="uid://pdc28mulbtp" path="res://Enemies/fireball.tscn" id="2_nmard"]
+[ext_resource type="PackedScene" uid="uid://ccdl4nbgvxtrp" path="res://Enemies/quake.tscn" id="3_lt5n1"]
+[ext_resource type="Texture2D" uid="uid://o3pk0nrpbokm" path="res://dragon Sheet.png" id="3_s5cce"]
+[ext_resource type="PackedScene" uid="uid://d3n0w8dph7i4l" path="res://Menus/EndScreen.tscn" id="4_3rp60"]
+
+[sub_resource type="Animation" id="Animation_qiksw"]
+resource_name = "Breath"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 80, 219, 80), Rect2(219, 80, 219, 80), Rect2(438, 80, 219, 80), Rect2(657, 80, 219, 80), Rect2(876, 80, 219, 80), Rect2(0, 80, 219, 80)]
+}
+
+[sub_resource type="Animation" id="Animation_4voyp"]
+resource_name = "Quake"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 219, 80), Rect2(219, 0, 219, 80), Rect2(438, 0, 219, 80), Rect2(657, 0, 219, 80), Rect2(876, 0, 219, 80), Rect2(0, 0, 219, 80)]
+}
+
+[sub_resource type="Animation" id="Animation_a7h1p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 219, 80)]
+}
+
+[sub_resource type="Animation" id="Animation_oxwh4"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 219, 80)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ld5fv"]
+_data = {
+"Breath": SubResource("Animation_qiksw"),
+"Quake": SubResource("Animation_4voyp"),
+"RESET": SubResource("Animation_a7h1p"),
+"idle": SubResource("Animation_oxwh4")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xgxtd"]
+radius = 11.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oy4oj"]
+size = Vector2(217, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7fgti"]
+size = Vector2(219, 57)
+
+[node name="Dragon" type="Node2D"]
+
+[node name="CharacterBody2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_f0a3e")
+Fireball = ExtResource("2_nmard")
+Quake = ExtResource("3_lt5n1")
+EndingScene = ExtResource("4_3rp60")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture_filter = 1
+position = Vector2(0, -18)
+texture = ExtResource("3_s5cce")
+region_enabled = true
+region_rect = Rect2(0, 0, 219, 80)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_ld5fv")
+}
+
+[node name="Head" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-1, 10)
+shape = SubResource("CircleShape2D_xgxtd")
+
+[node name="ClawL" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-27, 5)
+shape = SubResource("CircleShape2D_xgxtd")
+
+[node name="ClawR" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(25, 5)
+shape = SubResource("CircleShape2D_xgxtd")
+
+[node name="RayCast2D" type="RayCast2D" parent="CharacterBody2D"]
+collision_mask = 4
+collide_with_areas = true
+
+[node name="FireBallSpawnPoint" type="Node2D" parent="CharacterBody2D/RayCast2D"]
+
+[node name="PlayerDetectionZone" type="Area2D" parent="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/PlayerDetectionZone"]
+position = Vector2(-0.5, 10.5)
+shape = SubResource("RectangleShape2D_oy4oj")
+
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+
+[node name="Body" type="CollisionShape2D" parent="CharacterBody2D2"]
+position = Vector2(-1, -30)
+shape = SubResource("RectangleShape2D_7fgti")
+
+[connection signal="area_entered" from="CharacterBody2D" to="CharacterBody2D" method="_on_area_entered"]
+[connection signal="animation_finished" from="CharacterBody2D/AnimationPlayer" to="CharacterBody2D" method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="CharacterBody2D/PlayerDetectionZone" to="CharacterBody2D" method="_on_player_detection_zone_area_entered"]
+[connection signal="area_exited" from="CharacterBody2D/PlayerDetectionZone" to="CharacterBody2D" method="_on_player_detection_zone_area_exited"]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2ld1nvil3u1d"]
+
+[ext_resource type="Texture2D" uid="uid://dyrelfyqqaj3d" path="res://Campfire.png" id="1_vxyj8"]
+
+[node name="Campfire" type="Sprite2D" groups=["Campfire"]]
+texture_filter = 1
+texture = ExtResource("1_vxyj8")

@@ -1,0 +1,226 @@
+[gd_scene load_steps=18 format=3 uid="uid://ds2hgurombbe5"]
+
+[ext_resource type="Texture2D" uid="uid://otlidclm3nq" path="res://Logo.png" id="1_jnvxd"]
+[ext_resource type="Script" path="res://Menus/StartButton.cs" id="1_pwg75"]
+[ext_resource type="Texture2D" uid="uid://bj743leceae4x" path="res://Menus/Exit Button.png" id="2_vk544"]
+[ext_resource type="Texture2D" uid="uid://ufejltdimxgb" path="res://Jam Cards/Wild Jam/Csharp.png" id="3_16s3s"]
+[ext_resource type="Script" path="res://Menus/ExitGame.cs" id="3_rosh5"]
+[ext_resource type="Texture2D" uid="uid://dtw80vgq24kv" path="res://Jam Cards/Wild Jam/Jam Logo.png" id="4_hws4c"]
+[ext_resource type="Texture2D" uid="uid://d0hgc5rt01xqn" path="res://Jam Cards/Vimjam/Vimjam.png" id="5_ksyg0"]
+[ext_resource type="Texture2D" uid="uid://bqaxufh3nrw4q" path="res://Menus/Start Button.png" id="7_n2vyo"]
+[ext_resource type="Script" path="res://Menus/Notes.cs" id="8_nwx7y"]
+[ext_resource type="Texture2D" uid="uid://c5tf1x12jbqyk" path="res://Menus/Jam Notes Button.png" id="10_yxghy"]
+[ext_resource type="AudioStream" uid="uid://lrv0bi6d4syp" path="res://Sounds/menublip.wav" id="12_dwir0"]
+[ext_resource type="AudioStream" uid="uid://d177hvr365xoj" path="res://Music/bip-bop.ogg" id="13_42ew2"]
+
+[sub_resource type="Animation" id="Animation_gfq2k"]
+resource_name = "In"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 143), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hmfre"]
+resource_name = "Out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 143)]
+}
+
+[sub_resource type="Animation" id="Animation_73e50"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 143)]
+}
+
+[sub_resource type="Animation" id="Animation_xp8s1"]
+resource_name = "Start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 143)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1388p"]
+_data = {
+"In": SubResource("Animation_gfq2k"),
+"Out": SubResource("Animation_hmfre"),
+"RESET": SubResource("Animation_73e50"),
+"Start": SubResource("Animation_xp8s1")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -4.0
+offset_top = -10.0
+offset_right = 250.0
+offset_bottom = 140.0
+color = Color(0, 0.435294, 0.709804, 1)
+
+[node name="Logo" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(120, 68)
+texture = ExtResource("1_jnvxd")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 179.0
+offset_top = 36.0
+offset_right = 241.0
+offset_bottom = 135.0
+texture = ExtResource("2_vk544")
+patch_margin_left = 7
+patch_margin_top = 8
+patch_margin_right = 7
+patch_margin_bottom = 6
+
+[node name="Label" type="Label" parent="NinePatchRect"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.0
+offset_top = -1.0
+offset_right = 53.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 7
+text = "Controls:
+Move:
+Arrow Keys
+Z - Create
+Campfire
+Space - Swing
+Weapon"
+
+[node name="Exit Button" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(16, 16)
+texture = ExtResource("2_vk544")
+
+[node name="Exit" type="Button" parent="Exit Button" node_paths=PackedStringArray("MenuBlip")]
+texture_filter = 1
+offset_left = -16.0
+offset_top = -21.0
+offset_right = 16.0
+offset_bottom = 17.0
+text = "X"
+flat = true
+script = ExtResource("3_rosh5")
+MenuBlip = NodePath("../../AudioStreamPlayer2D")
+
+[node name="Start Button" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(120, 124)
+texture = ExtResource("7_n2vyo")
+
+[node name="Start" type="Button" parent="Start Button" node_paths=PackedStringArray("MenuBlip")]
+texture_filter = 1
+offset_left = -49.0
+offset_top = -19.0
+offset_right = 47.0
+offset_bottom = 12.0
+text = "Start Game"
+flat = true
+script = ExtResource("1_pwg75")
+MenuBlip = NodePath("../../AudioStreamPlayer2D")
+
+[node name="Jam Notes" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(200, 12)
+texture = ExtResource("10_yxghy")
+
+[node name="Notes" type="Button" parent="Jam Notes" node_paths=PackedStringArray("MenuBlip")]
+texture_filter = 1
+offset_left = -43.0
+offset_top = -19.0
+offset_right = 45.0
+offset_bottom = 12.0
+theme_override_font_sizes/font_size = 13
+text = "Jam Notes"
+flat = true
+script = ExtResource("8_nwx7y")
+MenuBlip = NodePath("../../AudioStreamPlayer2D")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Jam Notes/Notes"]
+libraries = {
+"": SubResource("AnimationLibrary_1388p")
+}
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_top = 143.0
+offset_right = 250.0
+offset_bottom = 169.0
+text = "Made For: "
+horizontal_alignment = 1
+
+[node name="Csharp" type="Sprite2D" parent="Label"]
+texture_filter = 1
+position = Vector2(97, 78)
+texture = ExtResource("3_16s3s")
+
+[node name="Wild Jam" type="Sprite2D" parent="Label"]
+texture_filter = 1
+position = Vector2(55, 66)
+texture = ExtResource("4_hws4c")
+
+[node name="Vimjam" type="Sprite2D" parent="Label"]
+texture_filter = 1
+position = Vector2(202, 45)
+texture = ExtResource("5_ksyg0")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_dwir0")
+
+[node name="MenuSong" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_42ew2")
+autoplay = true
+
+[connection signal="mouse_entered" from="Exit Button/Exit" to="Exit Button/Exit" method="_on_mouse_entered"]
+[connection signal="pressed" from="Exit Button/Exit" to="Exit Button/Exit" method="_on_pressed"]
+[connection signal="mouse_entered" from="Start Button/Start" to="Start Button/Start" method="_on_mouse_entered"]
+[connection signal="pressed" from="Start Button/Start" to="Start Button/Start" method="_on_pressed"]
+[connection signal="mouse_entered" from="Jam Notes/Notes" to="Jam Notes/Notes" method="_on_mouse_entered"]
+[connection signal="pressed" from="Jam Notes/Notes" to="Jam Notes/Notes" method="_on_pressed"]

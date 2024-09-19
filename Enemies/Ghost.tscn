@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://fqhbvdx2hnjo"]
+
+[ext_resource type="Texture2D" uid="uid://doh1l6gipx0rm" path="res://Ghost-Sheet.png" id="1_eos0h"]
+[ext_resource type="Script" path="res://Enemies/Ghost.cs" id="1_is6py"]
+[ext_resource type="Script" path="res://Enemies/GhostPoints.cs" id="1_jc33v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsje0"]
+size = Vector2(9, 10)
+
+[sub_resource type="Animation" id="Animation_vt5i2"]
+resource_name = "Move"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 16, 16), Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_63lia"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tnjon"]
+_data = {
+"Move": SubResource("Animation_vt5i2"),
+"RESET": SubResource("Animation_63lia")
+}
+
+[node name="GhostBase" type="Node2D"]
+script = ExtResource("1_jc33v")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_is6py")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+texture_filter = 1
+texture = ExtResource("1_eos0h")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_fsje0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
+libraries = {
+"": SubResource("AnimationLibrary_tnjon")
+}
+
+[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]

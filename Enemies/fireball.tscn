@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://pdc28mulbtp"]
+
+[ext_resource type="Texture2D" uid="uid://dypy8sfgbmieh" path="res://Fireball.png" id="1_8upws"]
+[ext_resource type="Script" path="res://Enemies/fireball.cs" id="1_bin5k"]
+[ext_resource type="AudioStream" uid="uid://c8okcrig1oof4" path="res://Sounds/FireBall.wav" id="3_27hvu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u673l"]
+radius = 7.0
+
+[node name="Fireball" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_bin5k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_8upws")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_u673l")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_27hvu")
+autoplay = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

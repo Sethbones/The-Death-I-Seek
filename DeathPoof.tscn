@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfc250wu8fyou"]
+
+[ext_resource type="Script" path="res://Poof.cs" id="1_7s3e3"]
+[ext_resource type="Texture2D" uid="uid://dm0d7jhfvley4" path="res://Poof.png" id="2_748kf"]
+[ext_resource type="AudioStream" uid="uid://tkir55grb75x" path="res://Sounds/Poofgoestheenemy.wav" id="3_wa1mj"]
+
+[sub_resource type="Animation" id="Animation_3awt8"]
+resource_name = "Poof"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 16, 16), Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16), Rect2(48, 0, 16, 16), Rect2(64, 0, 16, 16), Rect2(64, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yt4cu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3l7df"]
+_data = {
+"Poof": SubResource("Animation_3awt8"),
+"RESET": SubResource("Animation_yt4cu")
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_7s3e3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_748kf")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3l7df")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_wa1mj")
+autoplay = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
