@@ -15,7 +15,7 @@ https://godotengine.org/download/archive/4.1-stable/
 Load project file with Godot
 
 ## Running
-Run the game with the button in the top left of Godot
+Run the game with the button in the top right of Godot
 
 ## License
 Everything in here is licensed under the BSD 3-Clause 'New' or 'Revised' License; see LICENSE file for details.
