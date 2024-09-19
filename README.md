@@ -1,6 +1,6 @@
 The Death I Seek
 =====
-
+![DeathISeekLogo](https://raw.githubusercontent.com/Sethbones/The-Death-I-Seek/main/Logo2-export.png)
 ## Description
 Made with Godot 4.1 with C#
 Source Code for the Godot Wild Jam #61 and VimJam 4 submission: Wizard's Poem
