@@ -6,7 +6,7 @@ The Death I Seek
 Made with Godot 4.1 with C#
 Source Code for the Godot Wild Jam #61 and VimJam 4 submission: Wizard's Poem
 a game in the vein of games like: legend of zelda and castlevania dawn of sorrow.
-in which a player is tasked to explore a map, find an enemy they like, die to it and take their power for yourself.
+in which a player is tasked to explore a map, find an enemy they like, die to it and take their power for themselves.
 
 ## Screenshots
 ![Game Logo](https://img.itch.zone/aW1hZ2UvMjI2NTkwNi8xMzQzMDczNC5wbmc=/original/59yLa8.png)
